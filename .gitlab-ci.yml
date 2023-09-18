@@ -5,9 +5,13 @@ stages:
     - test 
 build: 
     stage: build 
-    script: 
-        - ./gradlew assemble 
+    script:
+        - cd auctionhouse
+        - cd backend
+        - .\gradlew assemble 
 test: 
     stage: test 
-    script: 
-        - ./gradlew test
+    script:
+        - cd auctionhouse
+        - cd backend
+        - .\gradlew test
