@@ -1,5 +1,6 @@
 package bg.dimitar.individual.controller;
 
+import bg.dimitar.individual.business.ItemManager;
 import bg.dimitar.individual.business.impl.ItemManagerImpl;
 import bg.dimitar.individual.controller.dtos.Item;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/items")
 @AllArgsConstructor
 public class ItemController {
-    private final ItemManagerImpl itemManager;
+    private final ItemManager itemManager;
 
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {

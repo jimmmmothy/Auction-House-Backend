@@ -2,6 +2,7 @@ package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.ItemManager;
 import bg.dimitar.individual.controller.dtos.Item;
+import bg.dimitar.individual.persistance.ItemRepository;
 import bg.dimitar.individual.persistance.entity.ItemEntity;
 import bg.dimitar.individual.persistance.impl.ItemRepositoryImpl;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ItemManagerImpl implements ItemManager {
-    private final ItemRepositoryImpl repository;
+    private final ItemRepository repository;
 
     @Override
     public Item getItemByID(long id) {
