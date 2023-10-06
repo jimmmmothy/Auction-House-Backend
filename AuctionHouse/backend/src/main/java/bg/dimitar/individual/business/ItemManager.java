@@ -1,13 +1,14 @@
 package bg.dimitar.individual.business;
 
 import bg.dimitar.individual.controller.dtos.Item;
+import bg.dimitar.individual.persistance.entity.ItemEntity;
 
 import java.util.List;
 
 public interface ItemManager {
-    Item getItemByID(long id);
-    List<Item> getAllItems();
-    boolean addItem(Item item);
-    boolean updateItem(long id, Item item);
+    ItemEntity getItemByID(long id);
+    List<ItemEntity> getAllItems();
+    boolean addItem(ItemEntity item);
+    boolean updateItem(ItemEntity item);
     boolean deleteItem(long id);
 }

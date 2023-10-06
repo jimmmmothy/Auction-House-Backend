@@ -33,7 +33,7 @@ class ItemManagerImplTest {
         ItemEntity itemEntity = new ItemEntity(itemId, "ItemName", "ItemCategory");
         when(itemRepository.getItemByID(itemId)).thenReturn(Optional.of(itemEntity));
 
-        Item result = itemManager.getItemByID(itemId);
+        ItemEntity result = itemManager.getItemByID(itemId);
 
         assertEquals(itemEntity.getName(), result.getName());
         assertEquals(itemEntity.getCategory(), result.getCategory());
@@ -44,7 +44,7 @@ class ItemManagerImplTest {
         long itemId = 1L;
         when(itemRepository.getItemByID(itemId)).thenReturn(Optional.empty());
 
-        Item result = itemManager.getItemByID(itemId);
+        ItemEntity result = itemManager.getItemByID(itemId);
 
         assertNull(result);
     }
@@ -57,7 +57,7 @@ class ItemManagerImplTest {
 
         when(itemRepository.getAllItems()).thenReturn(itemEntities);
 
-        List<Item> result = itemManager.getAllItems();
+        List<ItemEntity> result = itemManager.getAllItems();
 
         assertEquals(itemEntities.size(), result.size());
         for (int i = 0; i < itemEntities.size(); i++) {
@@ -67,7 +67,7 @@ class ItemManagerImplTest {
     }
 
     void addItem() {
-        Item item = Item.builder().name("NewItem").category("NewCategory").build();
+        ItemEntity item = ItemEntity.builder().name("NewItem").category("NewCategory").build();
 
         when(itemRepository.addItem(Mockito.any(ItemEntity.class))).thenReturn(true);
 
@@ -77,21 +77,21 @@ class ItemManagerImplTest {
     @Test
     void updateItem() {
         long itemId = 1L;
-        Item item = Item.builder().name("UpdatedItem").category("UpdatedCategory").build();
+        ItemEntity item = ItemEntity.builder().id(itemId).name("UpdatedItem").category("UpdatedCategory").build();
 
         when(itemRepository.updateItem(Mockito.any(ItemEntity.class))).thenReturn(true);
 
-        assertTrue(itemManager.updateItem(itemId, item));
+        assertTrue(itemManager.updateItem(item));
     }
 
     @Test
     void updateItem_nonexistentItem_returnFalse() {
         long itemId = 1L;
-        Item item = Item.builder().name("UpdatedItem").category("UpdatedCategory").build();
+        ItemEntity item = ItemEntity.builder().id(itemId).name("UpdatedItem").category("UpdatedCategory").build();
 
         when(itemRepository.updateItem(Mockito.any(ItemEntity.class))).thenReturn(false);
 
-        assertFalse(itemManager.updateItem(itemId, item));
+        assertFalse(itemManager.updateItem(item));
     }
 
     @Test
