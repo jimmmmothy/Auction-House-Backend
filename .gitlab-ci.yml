@@ -1,5 +1,13 @@
 variables: 
     GRADLE_OPTS: "-Dorg.gradle.daemon=false" 
+    SONARQUBE_TOKEN: sqp_2051831715083c3278c958b67616ea44bd30dc7f
+    SONARQUBE_URL: http://localhost:9000/
+sonarqube-check:
+  image: sonarsource/sonar-scanner-cli:latest
+  script:
+    - sonar-scanner -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN
+  only:
+    - main
 stages: 
     - build 
     - test 
