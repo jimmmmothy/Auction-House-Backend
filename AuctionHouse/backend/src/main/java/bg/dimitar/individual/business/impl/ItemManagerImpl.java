@@ -4,7 +4,6 @@ import bg.dimitar.individual.business.ItemManager;
 import bg.dimitar.individual.controller.dtos.Item;
 import bg.dimitar.individual.persistance.ItemRepository;
 import bg.dimitar.individual.persistance.entity.ItemEntity;
-import bg.dimitar.individual.persistance.impl.ItemRepositoryImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public ItemEntity getItemByID(long id) {
-        final Optional<ItemEntity> itemOptional = repository.getItemByID(id);
+        final Optional<ItemEntity> itemOptional = repository.getItemById(id);
         return itemOptional.orElse(null);
     }
 
