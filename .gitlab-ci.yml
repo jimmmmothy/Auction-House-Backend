@@ -11,16 +11,19 @@ build:
     script:
         - cd auctionhouse
         - cd backend
-        - .\gradlew assemble 
+        - .\gradlew assemble
+        - .\gradlew --stop 
 test: 
     stage: test 
     script:
         - cd auctionhouse
         - cd backend
         - .\gradlew test
+        - .\gradlew --stop 
 sonarqube:
     stage: sonarqube
     script:
         -cd auctionhouse
         -cd backend
         -cd .\gradlew sonar
+        - .\gradlew --stop 
