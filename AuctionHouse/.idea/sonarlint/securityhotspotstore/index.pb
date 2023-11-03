@@ -15,3 +15,15 @@ D
 Nbackend/src/main/java/bg/dimitar/individual/business/impl/ItemManagerImpl.java,c\f\cf6fcdcf85a87003e51df90b483a3aabfed57f6f
 z
 Jbackend/src/main/java/bg/dimitar/individual/controller/ItemTranslator.java,5\1\5169a3ebda3ca8cd4fc8dc6095b9fa0381ab7a6d
+C
+backend/gradlew.bat,7\b\7b3a79f800e85c8b44fcfc250f8be64bf945f627
+?
+backend/gradlew,c\2\c2919d98ae33730c77963d99ccd650551213ef68
+B
+backend/.gitignore,7\e\7e16691a9fc60084a157565ec422c8094d3df67c
+u
+Ebackend/src/main/java/bg/dimitar/individual/business/ItemManager.java,6\5\651a1dba70261965f85c77473d41847cd2831ad9
+z
+Jbackend/src/main/java/bg/dimitar/individual/controller/ItemController.java,c\3\c3435520013d6de0a07ccd8a363474d3b45c52ea
+u
+Ebackend/src/main/java/bg/dimitar/individual/controller/dtos/Item.java,f\a\fa95e4c76717d1e6d6fe4154d158606934b4108c

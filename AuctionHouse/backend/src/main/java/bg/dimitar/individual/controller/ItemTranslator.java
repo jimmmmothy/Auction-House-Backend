@@ -7,24 +7,29 @@ public class ItemTranslator {
     private ItemTranslator(){}
     public static ItemEntity translateToEntity(Item item) {
         return ItemEntity.builder()
-                .title(item.getName())
+                .title(item.getTitle())
                 .category(item.getCategory())
+                .startingPrice(item.getStartingPrice())
+                .currentBid(item.getCurrentBid())
                 .build();
-
     }
 
     public static ItemEntity translateToEntity(Item item, long id) {
         return ItemEntity.builder()
                 .id(id)
-                .title(item.getName())
+                .title(item.getTitle())
                 .category(item.getCategory())
+                .startingPrice(item.getStartingPrice())
+                .currentBid(item.getCurrentBid())
                 .build();
     }
 
     public static Item translateToDTO(ItemEntity item) {
         return Item.builder()
-                .name(item.getTitle())
+                .title(item.getTitle())
                 .category(item.getCategory())
+                .startingPrice(item.getStartingPrice())
+                .currentBid(item.getCurrentBid())
                 .build();
     }
 }

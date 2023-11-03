@@ -1,13 +1,7 @@
 package bg.dimitar.individual.persistance.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "items")
@@ -18,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class ItemEntity {
     @Id
     @Column(name = "id")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -26,9 +21,9 @@ public class ItemEntity {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "startingPrice")
+    @Column(name = "starting_price")
     private double startingPrice;
 
-    @Column(name = "currentBid")
+    @Column(name = "current_bid")
     private double currentBid;
 }

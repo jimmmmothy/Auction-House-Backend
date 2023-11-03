@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ItemManagerImpl implements ItemManager {
-    private final ItemRepository repository;
+    private ItemRepository repository;
 
     @Override
     public ItemEntity getItemByID(long id) {
-        final Optional<ItemEntity> itemOptional = repository.getItemById(id);
+        final Optional<ItemEntity> itemOptional = repository.findById(id);
         return itemOptional.orElse(null);
     }
 
@@ -26,23 +26,23 @@ public class ItemManagerImpl implements ItemManager {
     public List<ItemEntity> getAllItems() {
         List<ItemEntity> returnItems = new ArrayList<>();
 
-        returnItems.addAll(repository.getAllItems());
+        returnItems.addAll(repository.findAll());
 
         return returnItems;
     }
 
     @Override
-    public boolean addItem(ItemEntity item) {
-        return repository.addItem(item);
+    public ItemEntity addItem(ItemEntity item) {
+        return repository.save(item);
     }
 
-    @Override
-    public boolean updateItem(ItemEntity item) {
-        return repository.updateItem(item);
-    }
+//    @Override
+//    public boolean updateItem(ItemEntity item) {
+//        return repository.updateItem(item);
+//    }
 
     @Override
-    public boolean deleteItem(long id) {
-        return repository.deleteItem(id);
+    public void deleteItem(long id) {
+        repository.deleteById(id);
     }
 }
