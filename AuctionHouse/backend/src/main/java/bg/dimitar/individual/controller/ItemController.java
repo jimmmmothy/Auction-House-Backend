@@ -44,19 +44,19 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Void> updateItem(@RequestBody @Valid Item item, @PathVariable final long id) {
-        if (itemManager.updateItem(ItemTranslator.translateToEntity(item, id)))
-            return ResponseEntity.ok().build();
+//    @PutMapping("{id}")
+//    public ResponseEntity<Void> updateItem(@RequestBody @Valid Item item, @PathVariable final long id) {
+//        if (itemManager.update(ItemTranslator.translateToEntity(item, id)))
+//            return ResponseEntity.ok().build();
+//
+//        return ResponseEntity.notFound().build();
+//    }
 
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable final long id) {
-        if (itemManager.deleteItem(id))
-            return ResponseEntity.ok().build();
-
-        return ResponseEntity.notFound().build();
-    }
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<Void> deleteItem(@PathVariable final long id) {
+//        if (itemManager.deleteItem(id))
+//            return ResponseEntity.ok().build();
+//
+//        return ResponseEntity.notFound().build();
+//    }
 }

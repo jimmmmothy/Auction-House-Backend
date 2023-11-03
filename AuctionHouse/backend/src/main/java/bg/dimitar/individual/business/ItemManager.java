@@ -8,7 +8,7 @@ import java.util.List;
 public interface ItemManager {
     ItemEntity getItemByID(long id);
     List<ItemEntity> getAllItems();
-    boolean addItem(ItemEntity item);
-    boolean updateItem(ItemEntity item);
-    boolean deleteItem(long id);
+    ItemEntity addItem(ItemEntity item);
+ //   boolean updateItem(ItemEntity item);
+    void deleteItem(long id);
 }

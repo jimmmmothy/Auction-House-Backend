@@ -13,8 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Item {
     @NotBlank
-    private String name;
-
+    private String title;
     @NotBlank
     private String category;
+    private double startingPrice;
+    private double currentBid;
 }
