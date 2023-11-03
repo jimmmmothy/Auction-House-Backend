@@ -1,9 +1,9 @@
 
 š
-java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(­ßúöÿÿÿÿÿ8óÙÁ×¸1J$a7bec9ef-8349-46ac-9a77-0707a0c8ed21
-~	java:S1250"<This block of commented-out lines of code should be removed.(Õý€8»ñÁ×¸1J$5083e053-86e5-4142-a308-490941a0b453
-ƒ	java:S1258"<This block of commented-out lines of code should be removed.(Œ…ËÝÿÿÿÿÿ8ŸŽÃ×¸1J$534cdc86-eca2-4ae5-b529-bc37bbcbfd79
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(­ßúöÿÿÿÿÿ8óÙÁ×¸1J$4f3c483f-b012-443b-b919-ac6b0c1a7ac3
+~	java:S1250"<This block of commented-out lines of code should be removed.(Õý€8»ñÁ×¸1J$bca88851-f080-4025-ac66-6d7cd7e634c0
+ƒ	java:S1258"<This block of commented-out lines of code should be removed.(Œ…ËÝÿÿÿÿÿ8ŸŽÃ×¸1J$3a98b4eb-0841-4203-a3dc-d0a0205234e7
 “
-java:S1128"PRemove this unused import 'bg.dimitar.individual.business.impl.ItemManagerImpl'.(¢±”Ä8¼ñÁ×¸1J$b2dd9e0b-40a5-4606-ab49-da8c06eda1dc
+java:S1128"PRemove this unused import 'bg.dimitar.individual.business.impl.ItemManagerImpl'.(¢±”Ä8¼ñÁ×¸1J$04084f8c-364d-4ec3-9236-2456e8f695ba
 s
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8¼ñÁ×¸1J$8bdc63ff-133b-4126-9b31-87645ef700da
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8¼ñÁ×¸1J$68e61cad-4e0f-4184-aceb-ed6b15256bf6
