@@ -1,4 +1,4 @@
-package bg.dimitar.individual.business.customException;
+package bg.dimitar.individual.business.custom_exception;
 
 import lombok.Getter;
 

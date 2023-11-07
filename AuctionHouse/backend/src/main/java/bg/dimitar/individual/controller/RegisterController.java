@@ -1,6 +1,6 @@
 package bg.dimitar.individual.controller;
 
-import bg.dimitar.individual.business.customException.InvalidRegistrationException;
+import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.business.UserManager;
 import bg.dimitar.individual.configuration.security.token.AccessTokenEncoder;
 import bg.dimitar.individual.configuration.security.token.impl.AccessTokenImpl;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/register")

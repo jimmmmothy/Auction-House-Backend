@@ -1,7 +1,7 @@
 package bg.dimitar.individual.business;
 
 
-import bg.dimitar.individual.business.customException.InvalidRegistrationException;
+import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 
 public interface UserManager {

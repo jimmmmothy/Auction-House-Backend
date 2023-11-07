@@ -137,3 +137,17 @@ Q.idea/sonarlint/securityhotspotstore/9/f/9fe84ebb15faf917b7def6236dba604453cc61
 Q.idea/sonarlint/securityhotspotstore/8/e/8eaaeb6a9268db50c7413bcefdabc71544c7d5af,4\a\4a349866de1accd52d102497aded0a5158eef818
 Å
 Q.idea/sonarlint/securityhotspotstore/2/8/28dc0a9979db50a2b9ccdef1d4f033a239d9f60d,d\f\dfa3a4c881aec532ce94ad1db065fa75dcd59c81
+Z
+*backend/src/test/java/ItemManagerTest.java,9\2\927902692f81f04c10d7d6169fa5cabf8ed76973
+v
+Fbackend/src/main/java/bg/dimitar/individual/IndividualApplication.java,d\f\dffd9e7da4439026c03e1e19ee90387aa6d2982c
+ï
+ebackend/src/main/java/bg/dimitar/individual/business/customException/UnauthorizedChangeException.java,4\3\43bcf7f01367d5af8074a1adfe61517d2ca73ff5
+c
+3backend/src/test/java/business/ItemManagerTest.java,c\d\cd179432580e41ef18e5911e5737a9bbe813d81b
+c
+3backend/src/test/java/business/UserManagerTest.java,e\8\e8231e3f4acade0f44187bf20f38b503e2b3415d
+ñ
+fbackend/src/main/java/bg/dimitar/individual/business/custom_exception/UnauthorizedChangeException.java,6\c\6c01ba396742e03d9d10a0b483c225f416b7de9e
+ó
+gbackend/src/main/java/bg/dimitar/individual/business/custom_exception/InvalidRegistrationException.java,9\4\94806ef28dbf6363f2fbc31b0ed863bdb0c6fd1c

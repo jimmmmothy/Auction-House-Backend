@@ -3,7 +3,7 @@ package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.UserManager;
 
-import bg.dimitar.individual.business.customException.InvalidRegistrationException;
+import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.validation.ConstraintViolation;
