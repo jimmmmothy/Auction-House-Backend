@@ -23,7 +23,7 @@ test:
 sonarqube:
     stage: sonarqube
     script:
-        -cd auctionhouse
-        -cd backend
-        -cd .\gradlew sonar
+        - cd auctionhouse
+        - cd backend
+        - cd .\gradlew sonar
         - .\gradlew --stop 
