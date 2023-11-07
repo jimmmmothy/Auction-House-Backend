@@ -9,6 +9,7 @@ public class UserTranslator {
     public static UserEntity translateToEntity(User user) {
         return UserEntity.builder()
                 .email(user.getEmail())
+                .role("nonAdmin")
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .username(user.getUsername())
