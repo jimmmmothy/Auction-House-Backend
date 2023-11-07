@@ -25,5 +25,6 @@ sonarqube:
     script:
         - cd auctionhouse
         - cd backend
-        - .\gradlew sonar
-        - .\gradlew --stop 
+        - ./gradlew test
+        - ./gradlew sonar
+        - ./gradlew --stop 
