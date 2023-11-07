@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, AccessTokenDecoder {
+public class AccessTokenEncoderDecoderImpl implements AccessTokenDecoder, AccessTokenEncoder {
     private final Key key;
     public AccessTokenEncoderDecoderImpl(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
