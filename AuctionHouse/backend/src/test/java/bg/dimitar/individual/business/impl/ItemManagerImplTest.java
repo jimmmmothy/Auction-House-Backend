@@ -1,9 +1,12 @@
+package bg.dimitar.individual.business.impl;
+
 import bg.dimitar.individual.business.ItemManager;
+import bg.dimitar.individual.business.custom_exception.NotFoundException;
 import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
-import bg.dimitar.individual.business.impl.ItemManagerImpl;
 import bg.dimitar.individual.persistance.ItemRepository;
 import bg.dimitar.individual.persistance.entity.ItemEntity;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +14,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
-class ItemManagerTest {
+class ItemManagerImplTest {
     private ItemManager itemManager;
     private ItemRepository repository;
 
@@ -71,6 +75,21 @@ class ItemManagerTest {
     }
 
     @Test
+    void updateItem_ThrowsException_WhenNotFound() {
+        long userId = 1L;
+        long realItemId = 1L;
+        ItemEntity realItemEntity = new ItemEntity();
+        realItemEntity.setId(realItemId);
+        realItemEntity.setPostedByUserId(1L);
+
+        ItemEntity searchItemEntity = new ItemEntity();
+
+        when(repository.findById(realItemId)).thenReturn(Optional.of(realItemEntity));
+
+        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId));
+    }
+
+    @Test
     void updateItem_ThrowsException_WhenUnauthorized() {
         long userId = 1L;
         ItemEntity itemEntity = new ItemEntity();
@@ -83,7 +102,7 @@ class ItemManagerTest {
     }
 
     @Test
-    void updateItem_SavesItem_WhenAuthorized() throws UnauthorizedChangeException {
+    void updateItem_SavesItem_WhenAuthorized() throws UnauthorizedChangeException, NotFoundException {
         long userId = 1L;
         ItemEntity itemEntity = new ItemEntity();
         itemEntity.setId(1L);
@@ -95,6 +114,20 @@ class ItemManagerTest {
 
         assertTrue(result);
         verify(repository, times(1)).save(itemEntity);
+    }
+
+    @Test
+    void deleteItem_ThrowsException_WhenNotFound() {
+        long userId = 1L;
+        long realItemId = 1L;
+        long searchItemId = 2L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(realItemId);
+        itemEntity.setPostedByUserId(1L);
+
+        when(repository.findById(realItemId)).thenReturn(Optional.of(itemEntity));
+
+        assertThrows(NotFoundException.class, () -> itemManager.deleteItem(searchItemId, userId));
     }
 
     @Test
@@ -111,7 +144,7 @@ class ItemManagerTest {
     }
 
     @Test
-    void deleteItem_DeletesItem_WhenAuthorized() throws UnauthorizedChangeException {
+    void deleteItem_DeletesItem_WhenAuthorized() throws UnauthorizedChangeException, NotFoundException {
         long userId = 1L;
         long itemId = 1L;
         ItemEntity itemEntity = new ItemEntity();

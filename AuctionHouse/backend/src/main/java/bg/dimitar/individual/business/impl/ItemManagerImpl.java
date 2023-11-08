@@ -1,6 +1,7 @@
 package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.ItemManager;
+import bg.dimitar.individual.business.custom_exception.NotFoundException;
 import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
 import bg.dimitar.individual.persistance.ItemRepository;
 import bg.dimitar.individual.persistance.entity.ItemEntity;
@@ -33,10 +34,13 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public boolean updateItem(ItemEntity item, Long userId) throws UnauthorizedChangeException {
+    public boolean updateItem(ItemEntity item, Long userId) throws UnauthorizedChangeException, NotFoundException {
         Optional<ItemEntity> itemFromDb = repository.findById(item.getId());
 
-        if (itemFromDb.isPresent() && !itemFromDb.get().getPostedByUserId().equals(userId)) {
+        if (itemFromDb.isEmpty()) {
+            throw new NotFoundException("Item not found");
+        }
+        if (!itemFromDb.get().getPostedByUserId().equals(userId)) {
             throw new UnauthorizedChangeException("You do not have permission to edit this item");
         }
 
@@ -45,10 +49,14 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public boolean deleteItem(Long id, Long userId) throws UnauthorizedChangeException {
+    public boolean deleteItem(Long id, Long userId) throws UnauthorizedChangeException, NotFoundException {
         Optional<ItemEntity> itemFromDb = repository.findById(id);
 
-        if (itemFromDb.isPresent() && !itemFromDb.get().getPostedByUserId().equals(userId)) {
+        if (itemFromDb.isEmpty()) {
+            throw new NotFoundException("Item not found");
+        }
+
+        if (!itemFromDb.get().getPostedByUserId().equals(userId)) {
             throw new UnauthorizedChangeException("You do not have permission to delete this item");
         }
 

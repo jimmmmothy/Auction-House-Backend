@@ -1,6 +1,7 @@
 package bg.dimitar.individual.controller;
 
 import bg.dimitar.individual.business.ItemManager;
+import bg.dimitar.individual.business.custom_exception.NotFoundException;
 import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
 import bg.dimitar.individual.controller.dtos.Item;
 import jakarta.validation.Valid;
@@ -54,6 +55,9 @@ public class ItemController {
         catch (UnauthorizedChangeException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
+        catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 
     @DeleteMapping("{id}")
@@ -65,6 +69,9 @@ public class ItemController {
         }
         catch (UnauthorizedChangeException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        }
+        catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
 }

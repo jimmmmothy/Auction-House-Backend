@@ -1,23 +1,23 @@
+package bg.dimitar.individual.business.impl;
+
 import bg.dimitar.individual.business.UserManager;
-import bg.dimitar.individual.business.impl.UserManagerImpl;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
 import bg.dimitar.individual.persistance.entity.UserEntity;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-import static org.mockito.Mockito.when;
-
-class UserManagerTest {
+class UserManagerImplTest {
     private UserManager userManager;
     private UserRepository repository;
 
