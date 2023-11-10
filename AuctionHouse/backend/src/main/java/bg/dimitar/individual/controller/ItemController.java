@@ -1,16 +1,16 @@
 package bg.dimitar.individual.controller;
 
 import bg.dimitar.individual.business.ItemManager;
-import bg.dimitar.individual.business.impl.ItemManagerImpl;
+import bg.dimitar.individual.business.custom_exception.NotFoundException;
+import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
 import bg.dimitar.individual.controller.dtos.Item;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/items")
@@ -24,7 +24,7 @@ public class ItemController {
         return ResponseEntity.ok(
                 itemManager.getAllItems()
                         .stream()
-                        .map(ItemTranslator::translateToDTO).collect(Collectors.toList())
+                        .map(ItemTranslator::translateToDTO).toList()
         );
     }
 
@@ -44,19 +44,34 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-//    @PutMapping("{id}")
-//    public ResponseEntity<Void> updateItem(@RequestBody @Valid Item item, @PathVariable final long id) {
-//        if (itemManager.update(ItemTranslator.translateToEntity(item, id)))
-//            return ResponseEntity.ok().build();
-//
-//        return ResponseEntity.notFound().build();
-//    }
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateItem(@RequestBody @Valid Item item, @PathVariable("id") final Long itemId, Long userId) {
+        try {
+            if (itemManager.updateItem(ItemTranslator.translateToEntity(item, itemId), userId))
+                return ResponseEntity.ok().build();
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Void> deleteItem(@PathVariable final long id) {
-//        if (itemManager.deleteItem(id))
-//            return ResponseEntity.ok().build();
-//
-//        return ResponseEntity.notFound().build();
-//    }
+            return ResponseEntity.notFound().build();
+        }
+        catch (UnauthorizedChangeException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        }
+        catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable("id") final Long itemId, Long userId) {
+        try {
+            itemManager.deleteItem(itemId, userId);
+
+            return ResponseEntity.ok().build();
+        }
+        catch (UnauthorizedChangeException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        }
+        catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
 }

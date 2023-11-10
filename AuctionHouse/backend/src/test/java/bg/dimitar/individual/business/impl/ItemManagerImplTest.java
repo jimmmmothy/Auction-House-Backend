@@ -1,114 +1,161 @@
-//package bg.dimitar.individual.business.impl;
-//
-//import bg.dimitar.individual.controller.dtos.Item;
-//import bg.dimitar.individual.persistance.ItemRepository;
-//import bg.dimitar.individual.persistance.entity.ItemEntity;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.mockito.MockitoAnnotations;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.when;
-//
-//class ItemManagerImplTest {
-//
-//    @Mock
-//    private ItemRepository itemRepository;
-//
-//    private final ItemManagerImpl itemManager;
-//
-//    public ItemManagerImplTest() {
-//        MockitoAnnotations.openMocks(this);
-//        this.itemManager = new ItemManagerImpl(itemRepository);
-//    }
-//
-//    @Test
-//    void getItemByID_existingItem_returnItem() {
-//        long itemId = 1L;
-//        ItemEntity itemEntity = new ItemEntity(itemId, "ItemName", "ItemCategory");
-//        when(itemRepository.getItemByID(itemId)).thenReturn(Optional.of(itemEntity));
-//
-//        ItemEntity result = itemManager.getItemByID(itemId);
-//
-//        assertEquals(itemEntity.getName(), result.getName());
-//        assertEquals(itemEntity.getCategory(), result.getCategory());
-//    }
-//
-//    @Test
-//    void getItemByID_nonexistentItem_returnNull() {
-//        long itemId = 1L;
-//        when(itemRepository.getItemByID(itemId)).thenReturn(Optional.empty());
-//
-//        ItemEntity result = itemManager.getItemByID(itemId);
-//
-//        assertNull(result);
-//    }
-//
-//    @Test
-//    void getAllItems() {
-//        List<ItemEntity> itemEntities = new ArrayList<>();
-//        itemEntities.add(new ItemEntity());
-//        itemEntities.add(new ItemEntity());
-//
-//        when(itemRepository.getAllItems()).thenReturn(itemEntities);
-//
-//        List<ItemEntity> result = itemManager.getAllItems();
-//
-//        assertEquals(itemEntities.size(), result.size());
-//        for (int i = 0; i < itemEntities.size(); i++) {
-//            assertEquals(itemEntities.get(i).getName(), result.get(i).getName());
-//            assertEquals(itemEntities.get(i).getCategory(), result.get(i).getCategory());
-//        }
-//    }
-//
-//    void addItem() {
-//        ItemEntity item = ItemEntity.builder().name("NewItem").category("NewCategory").build();
-//
-//        when(itemRepository.addItem(Mockito.any(ItemEntity.class))).thenReturn(true);
-//
-//        assertTrue(itemManager.addItem(item));
-//    }
-//
-//    @Test
-//    void updateItem() {
-//        long itemId = 1L;
-//        ItemEntity item = ItemEntity.builder().id(itemId).name("UpdatedItem").category("UpdatedCategory").build();
-//
-//        when(itemRepository.updateItem(Mockito.any(ItemEntity.class))).thenReturn(true);
-//
-//        assertTrue(itemManager.updateItem(item));
-//    }
-//
-//    @Test
-//    void updateItem_nonexistentItem_returnFalse() {
-//        long itemId = 1L;
-//        ItemEntity item = ItemEntity.builder().id(itemId).name("UpdatedItem").category("UpdatedCategory").build();
-//
-//        when(itemRepository.updateItem(Mockito.any(ItemEntity.class))).thenReturn(false);
-//
-//        assertFalse(itemManager.updateItem(item));
-//    }
-//
-//    @Test
-//    void deleteItem() {
-//        long itemId = 1L;
-//
-//        when(itemRepository.deleteItem(itemId)).thenReturn(true);
-//
-//        assertTrue(itemManager.deleteItem(itemId));
-//    }
-//
-//    @Test
-//    void deleteItem_nonexistentItem_returnFalse() {
-//        long itemId = 1L;
-//
-//        when(itemRepository.deleteItem(itemId)).thenReturn(false);
-//
-//        assertFalse(itemManager.deleteItem(itemId));
-//    }
-//}
+package bg.dimitar.individual.business.impl;
+
+import bg.dimitar.individual.business.ItemManager;
+import bg.dimitar.individual.business.custom_exception.NotFoundException;
+import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
+import bg.dimitar.individual.persistance.ItemRepository;
+import bg.dimitar.individual.persistance.entity.ItemEntity;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+
+class ItemManagerImplTest {
+    private ItemManager itemManager;
+    private ItemRepository repository;
+
+    @BeforeEach
+    public void setUp() {
+        repository = mock(ItemRepository.class);
+        itemManager = new ItemManagerImpl(repository);
+    }
+
+    @Test
+    void getItemById_Success() {
+        long itemId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(itemId);
+
+        when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
+
+        ItemEntity result = itemManager.getItemByID(itemId);
+
+        assertEquals(itemId, result.getId());
+    }
+
+    @Test
+    void getItemById_ReturnsNull_WhenNotFound() {
+        long itemId = 1L;
+
+        when(repository.findById(itemId)).thenReturn(Optional.empty());
+
+        ItemEntity result = itemManager.getItemByID(itemId);
+
+        assertNull(result);
+    }
+
+    @Test
+    void getAllItems_Success() {
+        List<ItemEntity> items = new ArrayList<>();
+        items.add(new ItemEntity());
+        items.add(new ItemEntity());
+
+        when(repository.findAll()).thenReturn(items);
+
+        List<ItemEntity> result = itemManager.getAllItems();
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void addItem_Success() {
+        ItemEntity itemEntity = new ItemEntity();
+
+        when(repository.save(itemEntity)).thenReturn(itemEntity);
+
+        ItemEntity result = itemManager.addItem(itemEntity);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void updateItem_ThrowsException_WhenNotFound() {
+        long userId = 1L;
+        long realItemId = 1L;
+        ItemEntity realItemEntity = new ItemEntity();
+        realItemEntity.setId(realItemId);
+        realItemEntity.setPostedByUserId(1L);
+
+        ItemEntity searchItemEntity = new ItemEntity();
+
+        when(repository.findById(realItemId)).thenReturn(Optional.of(realItemEntity));
+
+        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId));
+    }
+
+    @Test
+    void updateItem_ThrowsException_WhenUnauthorized() {
+        long userId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(1L);
+        itemEntity.setPostedByUserId(2L);
+
+        when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
+
+        assertThrows(UnauthorizedChangeException.class, () -> itemManager.updateItem(itemEntity, userId));
+    }
+
+    @Test
+    void updateItem_SavesItem_WhenAuthorized() throws UnauthorizedChangeException, NotFoundException {
+        long userId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(1L);
+        itemEntity.setPostedByUserId(userId);
+
+        when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
+
+        boolean result = itemManager.updateItem(itemEntity, userId);
+
+        assertTrue(result);
+        verify(repository, times(1)).save(itemEntity);
+    }
+
+    @Test
+    void deleteItem_ThrowsException_WhenNotFound() {
+        long userId = 1L;
+        long realItemId = 1L;
+        long searchItemId = 2L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(realItemId);
+        itemEntity.setPostedByUserId(1L);
+
+        when(repository.findById(realItemId)).thenReturn(Optional.of(itemEntity));
+
+        assertThrows(NotFoundException.class, () -> itemManager.deleteItem(searchItemId, userId));
+    }
+
+    @Test
+    void deleteItem_ThrowsException_WhenUnauthorized() {
+        long userId = 1L;
+        long itemId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(itemId);
+        itemEntity.setPostedByUserId(2L);
+
+        when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
+
+        assertThrows(UnauthorizedChangeException.class, () -> itemManager.deleteItem(itemId, userId));
+    }
+
+    @Test
+    void deleteItem_DeletesItem_WhenAuthorized() throws UnauthorizedChangeException, NotFoundException {
+        long userId = 1L;
+        long itemId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(itemId);
+        itemEntity.setPostedByUserId(userId);
+
+        when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
+
+        boolean result = itemManager.deleteItem(itemId, userId);
+
+        assertTrue(result);
+        verify(repository, times(1)).deleteById(itemId);
+    }
+}

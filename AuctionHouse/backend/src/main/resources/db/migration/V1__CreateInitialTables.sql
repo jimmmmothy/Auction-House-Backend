@@ -1,5 +1,6 @@
 CREATE TABLE Users (
     id BIGINT NOT NULL AUTO_INCREMENT,
+    role VARCHAR(10) NOT NULL,
     email VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -12,9 +13,11 @@ CREATE TABLE Users (
 
 CREATE TABLE Items (
     id BIGINT NOT NULL AUTO_INCREMENT ,
-    title VARCHAR(255),
-    category VARCHAR(255),
-    starting_price FLOAT,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    starting_price FLOAT NOT NULL,
     current_bid FLOAT,
-    PRIMARY KEY (id)
+    posted_by_user_id BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (posted_by_user_id) REFERENCES Users(id)
 );
