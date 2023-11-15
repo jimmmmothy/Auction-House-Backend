@@ -30,8 +30,6 @@ Ebackend/src/main/java/bg/dimitar/individual/controller/dtos/Item.java,f\a\fa95
 ~
 Nbackend/src/main/java/bg/dimitar/individual/controller/RegisterController.java,1\c\1c5753dae1dd2fad984488d4c9d16675369f91a0
 u
-Ebackend/src/main/java/bg/dimitar/individual/controller/dtos/User.java,b\5\b58e4ca9087ac83b381c6ef20b762561b7824716
-u
 Ebackend/src/main/java/bg/dimitar/individual/business/UserManager.java,9\a\9aef6048a0e6ab1835a67b1edcf63c2ba8b977e6
 ~
 Nbackend/src/main/java/bg/dimitar/individual/business/impl/UserManagerImpl.java,5\4\547da8e4c66220b6ed9c3370a9e9cb8f29a7d323
@@ -140,8 +138,6 @@ fbackend/src/main/java/bg/dimitar/individual/business/custom_exception/Unauthori
 ó
 gbackend/src/main/java/bg/dimitar/individual/business/custom_exception/InvalidRegistrationException.java,9\4\94806ef28dbf6363f2fbc31b0ed863bdb0c6fd1c
 Ç
-Rbackend/src/test/java/bg/dimitar/individual/business/impl/UserManagerImplTest.java,4\6\46e0ce4778fe2cfc10b1b605c903c1a6e16647c7
-Ç
 Rbackend/src/test/java/bg/dimitar/individual/business/impl/ItemManagerImplTest.java,e\b\ebe332602b85ca670593a65908e39cbec54fc6c6
 å
 \backend/src/main/java/bg/dimitar/individual/business/custom_exception/NotFoundException.java,6\2\6237ebf5fc51e0628c5ef683f198749ca3ed895b
@@ -153,3 +149,17 @@ w
 G.idea/sonarlint/issuestore/e/2/e2f1ccc1d49a55ea9a301473ecd81c6704551fcd,7\a\7a47d011269967498917eaa222ff93097854b28a
 w
 G.idea/sonarlint/issuestore/c/d/cd7d960b74ec93d3190ff513fe8b80ef9e70c47f,f\e\fec2a70c0df374d5c0957dee744e2095e77e3193
+v
+Fbackend/src/main/java/bg/dimitar/individual/controller/dtos/Login.java,f\1\f160fefa16cea86e78ec9df855c5be6a5e83b3e9
+y
+Ibackend/src/main/java/bg/dimitar/individual/controller/dtos/Register.java,2\e\2e5464079ae4f56cdf1f5f7331fff4c9edf7ad8c
+{
+Kbackend/src/main/java/bg/dimitar/individual/controller/LoginController.java,a\4\a42d915ad4d61365ade764aa454e3490311d5376
+~
+Nbackend/src/main/java/bg/dimitar/individual/configuration/PasswordEncoder.java,4\d\4ddb1fc42ea334888496a676fcbde4205337ca59
+Ü
+Vbackend/src/test/java/bg/dimitar/individual/business/impl/RegisterManagerImplTest.java,9\6\96b08efe57f5e1211754e63897410eed365f2e5b
+ê
+`backend/src/main/java/bg/dimitar/individual/business/custom_exception/InvalidLoginException.java,c\e\ce8bd3204a5ea0ca60a95503b839543b5bf0a1c9
+Ç
+Rbackend/src/test/java/bg/dimitar/individual/business/impl/UserManagerImplTest.java,4\6\46e0ce4778fe2cfc10b1b605c903c1a6e16647c7

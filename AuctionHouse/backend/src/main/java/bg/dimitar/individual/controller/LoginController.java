@@ -1,38 +1,36 @@
 package bg.dimitar.individual.controller;
 
-import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.business.UserManager;
+import bg.dimitar.individual.business.custom_exception.InvalidLoginException;
 import bg.dimitar.individual.configuration.security.token.AccessTokenEncoder;
 import bg.dimitar.individual.configuration.security.token.impl.AccessTokenImpl;
-import bg.dimitar.individual.controller.dtos.Register;
+import bg.dimitar.individual.controller.dtos.Login;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/login")
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:5000/", allowedHeaders = "*")
-public class RegisterController {
+public class LoginController {
     @Autowired
     private final AccessTokenEncoder accessTokenEncoder;
-    @Qualifier("userManager")
     private final UserManager userManager;
 
     @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody @Valid Register register) {
+    public ResponseEntity<String> loginUser(@RequestBody @Valid Login login) {
         try {
-            UserEntity entity = UserTranslator.translateRegisterDtoToEntity(register);
-            userManager.addUser(entity);
+            UserEntity entity = UserTranslator.translateLoginDtoToEntity(login);
+            entity = userManager.authenticateUser(entity);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));
         }
-        catch (InvalidRegistrationException ex) {
+        catch (InvalidLoginException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }

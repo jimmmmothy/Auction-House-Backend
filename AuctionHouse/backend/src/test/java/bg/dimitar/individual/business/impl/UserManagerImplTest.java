@@ -1,6 +1,7 @@
 package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.UserManager;
+import bg.dimitar.individual.business.custom_exception.InvalidLoginException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
 import bg.dimitar.individual.persistance.entity.UserEntity;
@@ -8,6 +9,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -20,11 +22,13 @@ import static org.mockito.Mockito.*;
 class UserManagerImplTest {
     private UserManager userManager;
     private UserRepository repository;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void setUp() {
         repository = mock(UserRepository.class);
-        userManager = new UserManagerImpl(repository);
+        passwordEncoder = mock(BCryptPasswordEncoder.class);
+        userManager = new UserManagerImpl(repository, passwordEncoder);
     }
 
     @Test
@@ -126,5 +130,44 @@ class UserManagerImplTest {
         assertThrows(InvalidRegistrationException.class,() -> userManager.addUser(user));
 
         verify(repository, times(1)).save(any(UserEntity.class));
+    }
+
+    @Test
+    void authenticateUser_Success() throws InvalidLoginException {
+        UserEntity user = new UserEntity();
+        user.setEmail("email@email.com");
+        user.setPassword("password");
+
+        when(repository.findByEmail("email@email.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(eq("password"), anyString())).thenReturn(true);
+
+        UserEntity result = userManager.authenticateUser(user);
+
+        assertEquals(user, result);
+    }
+
+    @Test
+    void authenticateUser_ReturnsNull_WhenNotFound() throws InvalidLoginException {
+        UserEntity user = new UserEntity();
+        user.setEmail("email@email.com");
+        user.setPassword("password");
+
+        when(repository.findByEmail("email@email.com")).thenReturn(Optional.empty());
+
+        UserEntity result = userManager.authenticateUser(user);
+
+        assertNull(result);
+    }
+
+    @Test
+    void authenticateUser_ThrowsException_WhenUnauthorized() throws InvalidLoginException{
+        UserEntity user = new UserEntity();
+        user.setEmail("email@email.com");
+        user.setPassword("password");
+
+        when(repository.findByEmail("email@email.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(eq("password"), anyString())).thenReturn(false);
+
+        assertThrows(InvalidLoginException.class, () -> userManager.authenticateUser(user));
     }
 }

@@ -3,20 +3,24 @@ package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.UserManager;
 
+import bg.dimitar.individual.business.custom_exception.InvalidLoginException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserManagerImpl implements UserManager {
     private UserRepository repository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity getUserById(Long id) {
@@ -39,6 +43,8 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean addUser(UserEntity user) throws InvalidRegistrationException {
         try {
+            String hashedPass = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashedPass);
             repository.save(user);
             return true;
         }
@@ -51,5 +57,19 @@ public class UserManagerImpl implements UserManager {
                             .orElse("Unknown constraint violation")
             );
         }
+    }
+
+    @Override
+    public UserEntity authenticateUser(UserEntity user) throws InvalidLoginException {
+        Optional<UserEntity> returned = repository.findByEmail(user.getEmail());
+
+        if (returned.isEmpty())
+            return null;
+
+        if (passwordEncoder.matches(user.getPassword(), returned.get().getPassword())) {
+            return returned.get();
+        }
+
+        throw new InvalidLoginException("Invalid login credentials");
     }
 }
