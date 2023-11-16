@@ -4,6 +4,7 @@ import bg.dimitar.individual.business.ItemManager;
 import bg.dimitar.individual.business.custom_exception.NotFoundException;
 import bg.dimitar.individual.business.custom_exception.UnauthorizedChangeException;
 import bg.dimitar.individual.controller.dtos.Item;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,13 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Void> addItem(@RequestBody @Valid Item item) {
-        itemManager.addItem(ItemTranslator.translateToEntity(item));
-
-        return ResponseEntity.ok().build();
+        try {
+            itemManager.addItem(ItemTranslator.translateToEntity(item));
+            return ResponseEntity.ok().build();
+        }
+        catch (JsonProcessingException ex) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("{id}")
@@ -57,6 +62,9 @@ public class ItemController {
         }
         catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+        catch (JsonProcessingException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 

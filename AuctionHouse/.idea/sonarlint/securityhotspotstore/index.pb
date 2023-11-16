@@ -109,12 +109,8 @@ w
 G.idea/sonarlint/issuestore/e/0/e00ddc3e5c209c92d74cd2e2c71ba55c8bc405ad,6\9\69407b5b27be51fb38f54d97af9209ae3a7ca1f5
 Å
 Q.idea/sonarlint/securityhotspotstore/1/c/1c5753dae1dd2fad984488d4c9d16675369f91a0,0\4\0484d33483f44da5154d1c6d39b5a7a60e122e85
-w
-G.idea/sonarlint/issuestore/b/5/b58e4ca9087ac83b381c6ef20b762561b7824716,b\9\b94150eb1210f1f771b7e7a386c0122c9259906e
 Å
 Q.idea/sonarlint/securityhotspotstore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e,9\0\909762385fc6eb20f922a91c6865741308b57f2c
-Å
-Q.idea/sonarlint/securityhotspotstore/b/5/b58e4ca9087ac83b381c6ef20b762561b7824716,2\b\2b0ee37b50138c01a566fdbb7c26a50a29f5c052
 Å
 Q.idea/sonarlint/securityhotspotstore/e/d/ed5369a992b2d9846b2132feeefd75e87407ca78,1\a\1a4eec0d08b342f9f4202f548fc7fbf232b146bc
 w
@@ -157,8 +153,6 @@ Ibackend/src/main/java/bg/dimitar/individual/controller/dtos/Register.java,2\e\
 Kbackend/src/main/java/bg/dimitar/individual/controller/LoginController.java,a\4\a42d915ad4d61365ade764aa454e3490311d5376
 ~
 Nbackend/src/main/java/bg/dimitar/individual/configuration/PasswordEncoder.java,4\d\4ddb1fc42ea334888496a676fcbde4205337ca59
-Ü
-Vbackend/src/test/java/bg/dimitar/individual/business/impl/RegisterManagerImplTest.java,9\6\96b08efe57f5e1211754e63897410eed365f2e5b
 ê
 `backend/src/main/java/bg/dimitar/individual/business/custom_exception/InvalidLoginException.java,c\e\ce8bd3204a5ea0ca60a95503b839543b5bf0a1c9
 Ç

@@ -17,6 +17,7 @@ CREATE TABLE Items (
     category VARCHAR(255) NOT NULL,
     starting_price FLOAT NOT NULL,
     current_bid FLOAT,
+    description JSON,
     posted_by_user_id BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (posted_by_user_id) REFERENCES Users(id)
