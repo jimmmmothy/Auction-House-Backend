@@ -17,6 +17,7 @@ public class ItemTranslator {
                 .startingPrice(item.getStartingPrice())
                 .currentBid(item.getCurrentBid())
                 .description(jsonDescription)
+                .postedByUserId(item.getPostedByUserId())
                 .build();
     }
 

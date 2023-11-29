@@ -19,4 +19,5 @@ public class Item {
     private double startingPrice;
     private double currentBid;
     private String description;
+    private long postedByUserId;
 }
