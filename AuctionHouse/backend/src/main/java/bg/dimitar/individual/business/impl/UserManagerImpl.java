@@ -3,6 +3,7 @@ package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.UserManager;
 
+import bg.dimitar.individual.business.custom_exception.EmailInUseException;
 import bg.dimitar.individual.business.custom_exception.InvalidLoginException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
@@ -41,10 +42,13 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public boolean addUser(UserEntity user) throws InvalidRegistrationException {
+    public boolean addUser(UserEntity user) throws InvalidRegistrationException, EmailInUseException {
         try {
             String hashedPass = passwordEncoder.encode(user.getPassword());
             user.setPassword(hashedPass);
+            if (repository.findByEmail(user.getEmail()).isPresent()) {
+                throw new EmailInUseException();
+            }
             repository.save(user);
             return true;
         }

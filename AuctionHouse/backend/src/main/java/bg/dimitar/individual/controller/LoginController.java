@@ -28,6 +28,10 @@ public class LoginController {
             UserEntity entity = UserTranslator.translateLoginDtoToEntity(login);
             entity = userManager.authenticateUser(entity);
 
+            if (entity == null) {
+                throw new InvalidLoginException("Invalid email");
+            }
+
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));
         }
         catch (InvalidLoginException ex) {

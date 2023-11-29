@@ -1,6 +1,7 @@
 package bg.dimitar.individual.business.impl;
 
 import bg.dimitar.individual.business.UserManager;
+import bg.dimitar.individual.business.custom_exception.EmailInUseException;
 import bg.dimitar.individual.business.custom_exception.InvalidLoginException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.persistance.UserRepository;
@@ -107,7 +108,7 @@ class UserManagerImplTest {
     }
 
     @Test
-    void addUser_Success() throws InvalidRegistrationException {
+    void addUser_Success() throws InvalidRegistrationException, EmailInUseException {
         UserEntity user = new UserEntity();
 
         when(repository.save(any(UserEntity.class))).thenReturn(user);
@@ -117,6 +118,18 @@ class UserManagerImplTest {
         verify(repository, times(1)).save(any(UserEntity.class));
 
         assertTrue(result);
+    }
+
+    @Test
+    void addUser_ThrowsException_WhenEmailInUse() {
+        UserEntity user = new UserEntity();
+        user.setEmail("email@email.com");
+
+        when(repository.findByEmail("email@email.com")).thenReturn(Optional.of(user));
+
+        assertThrows(EmailInUseException.class,() -> userManager.addUser(user));
+
+        verify(repository, times(0)).save(any(UserEntity.class));
     }
 
     @Test

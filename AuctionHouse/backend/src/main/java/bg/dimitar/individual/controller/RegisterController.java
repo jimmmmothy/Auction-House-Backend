@@ -1,5 +1,6 @@
 package bg.dimitar.individual.controller;
 
+import bg.dimitar.individual.business.custom_exception.EmailInUseException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.business.UserManager;
 import bg.dimitar.individual.configuration.security.token.AccessTokenEncoder;
@@ -34,6 +35,9 @@ public class RegisterController {
         }
         catch (InvalidRegistrationException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+        catch (EmailInUseException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
 }

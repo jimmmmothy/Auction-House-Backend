@@ -157,3 +157,5 @@ Nbackend/src/main/java/bg/dimitar/individual/configuration/PasswordEncoder.java
 `backend/src/main/java/bg/dimitar/individual/business/custom_exception/InvalidLoginException.java,c\e\ce8bd3204a5ea0ca60a95503b839543b5bf0a1c9
 ‚
 Rbackend/src/test/java/bg/dimitar/individual/business/impl/UserManagerImplTest.java,4\6\46e0ce4778fe2cfc10b1b605c903c1a6e16647c7
+Ž
+^backend/src/main/java/bg/dimitar/individual/business/custom_exception/EmailInUseException.java,e\5\e51652fc59b3ed2b743ee5c59a44de8ca7011f00
