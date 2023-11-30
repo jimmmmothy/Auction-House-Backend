@@ -43,6 +43,7 @@ public class ItemTranslator {
                 .startingPrice(item.getStartingPrice())
                 .currentBid(item.getCurrentBid())
                 .description(item.getDescription())
+                .postedByUserId(item.getPostedByUserId())
                 .build();
     }
 }

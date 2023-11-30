@@ -9,8 +9,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -69,9 +73,12 @@ public class ItemController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable("id") final Long itemId, Long userId) {
+    public ResponseEntity<String> deleteItem(@PathVariable("id") final Long itemId, Principal principal) {
         try {
-            itemManager.deleteItem(itemId, userId);
+            long temp = Integer.parseInt(principal.getName());
+            boolean isAdmin = isUserAdmin();
+
+            itemManager.deleteItem(itemId, temp, isAdmin);
 
             return ResponseEntity.ok().build();
         }
@@ -81,5 +88,11 @@ public class ItemController {
         catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
+    }
+
+    private boolean isUserAdmin() {
+        GrantedAuthority[] authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray(new GrantedAuthority[0]);
+
+        return Arrays.stream(authorities).anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_admin"));
     }
 }
