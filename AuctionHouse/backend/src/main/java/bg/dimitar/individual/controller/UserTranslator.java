@@ -7,7 +7,7 @@ import bg.dimitar.individual.persistance.entity.UserEntity;
 public class UserTranslator {
     private UserTranslator() {}
 
-    public static UserEntity translateRegisterDtoToEntity(Register register) {
+    public static UserEntity translate(Register register) {
         return UserEntity.builder()
                 .email(register.getEmail())
                 .role("nonAdmin")
@@ -20,7 +20,7 @@ public class UserTranslator {
                 .build();
     }
 
-    public static Register translateRegisterEntityToDto(UserEntity user) {
+    public static Register translate(UserEntity user) {
         return Register.builder()
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
@@ -32,7 +32,7 @@ public class UserTranslator {
                 .build();
     }
 
-    public static UserEntity translateLoginDtoToEntity(Login login) {
+    public static UserEntity translate(Login login) {
         return UserEntity.builder()
                 .email(login.getEmail())
                 .password(login.getPassword())

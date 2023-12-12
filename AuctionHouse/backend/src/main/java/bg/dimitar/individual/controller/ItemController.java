@@ -29,7 +29,7 @@ public class ItemController {
         return ResponseEntity.ok(
                 itemManager.getAllItems()
                         .stream()
-                        .map(ItemTranslator::translateToDTO).toList()
+                        .map(ItemTranslator::translate).toList()
         );
     }
 
@@ -39,13 +39,13 @@ public class ItemController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(ItemTranslator.translateToDTO(itemManager.getItemByID(id)));
+        return ResponseEntity.ok(ItemTranslator.translate(itemManager.getItemByID(id)));
     }
 
     @PostMapping
     public ResponseEntity<Void> addItem(@RequestBody @Valid Item item) {
         try {
-            itemManager.addItem(ItemTranslator.translateToEntity(item));
+            itemManager.addItem(ItemTranslator.translate(item));
             return ResponseEntity.ok().build();
         }
         catch (JsonProcessingException ex) {
@@ -56,7 +56,7 @@ public class ItemController {
     @PutMapping("{id}")
     public ResponseEntity<String> updateItem(@RequestBody @Valid Item item, @PathVariable("id") final Long itemId, Long userId) {
         try {
-            if (itemManager.updateItem(ItemTranslator.translateToEntity(item, itemId), userId))
+            if (itemManager.updateItem(ItemTranslator.translate(item, itemId), userId))
                 return ResponseEntity.ok().build();
 
             return ResponseEntity.notFound().build();

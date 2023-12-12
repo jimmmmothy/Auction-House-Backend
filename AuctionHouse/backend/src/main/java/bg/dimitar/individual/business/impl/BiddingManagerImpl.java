@@ -1,0 +1,39 @@
+package bg.dimitar.individual.business.impl;
+
+import bg.dimitar.individual.business.BiddingManager;
+import bg.dimitar.individual.persistance.BiddingRepository;
+import bg.dimitar.individual.persistance.entity.BidEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
+@Service
+@AllArgsConstructor
+public class BiddingManagerImpl implements BiddingManager {
+    private final BiddingRepository biddingRepository;
+    private final ItemManagerImpl itemManager;
+
+    @Override
+    public List<BidEntity> getTop3Bids(Long itemId) {
+        return biddingRepository.findTop3ByItemIdOrderByBidAmountDesc(itemId);
+    }
+
+    @Override
+    public BidEntity addBid(BidEntity bid) {
+        if (bid.getBidAmount() < itemManager.getItemByID(bid.getItemId()).getStartingPrice()) {
+            throw new IllegalArgumentException("Bid amount is less than the minimum bid amount!");
+        }
+
+        if (bid.getBidAmount() < biddingRepository.findTop3ByItemIdOrderByBidAmountDesc(bid.getItemId()).get(2).getBidAmount()) {
+            throw new IllegalArgumentException("Bid amount is less than the third highest bid amount!");
+        }
+
+        if (Objects.equals(bid.getUserId(), itemManager.getItemByID(bid.getItemId()).getPostedByUserId())) {
+            throw new IllegalArgumentException("Seller cannot bid on their own item!");
+        }
+
+        return biddingRepository.save(bid);
+    }
+}

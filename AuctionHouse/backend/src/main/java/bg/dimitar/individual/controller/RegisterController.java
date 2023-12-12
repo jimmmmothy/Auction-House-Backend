@@ -10,7 +10,6 @@ import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
     @Autowired
     private final AccessTokenEncoder accessTokenEncoder;
-    @Qualifier("userManager")
     private final UserManager userManager;
 
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody @Valid Register register) {
         try {
-            UserEntity entity = UserTranslator.translateRegisterDtoToEntity(register);
+            UserEntity entity = UserTranslator.translate(register);
             userManager.addUser(entity);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));

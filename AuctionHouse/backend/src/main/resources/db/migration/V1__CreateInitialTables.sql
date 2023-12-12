@@ -7,6 +7,7 @@ CREATE TABLE Users (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
+    country VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (email)
 );

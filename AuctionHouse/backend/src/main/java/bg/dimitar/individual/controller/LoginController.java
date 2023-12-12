@@ -25,7 +25,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<String> loginUser(@RequestBody @Valid Login login) {
         try {
-            UserEntity entity = UserTranslator.translateLoginDtoToEntity(login);
+            UserEntity entity = UserTranslator.translate(login);
             entity = userManager.authenticateUser(entity);
 
             if (entity == null) {
