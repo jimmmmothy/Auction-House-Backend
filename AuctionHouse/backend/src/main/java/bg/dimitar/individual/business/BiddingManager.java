@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BiddingManager {
     List<BidEntity> getTop3Bids(Long itemId);
-    BidEntity addBid(BidEntity bid);
+    boolean addBid(BidEntity bid);
 }

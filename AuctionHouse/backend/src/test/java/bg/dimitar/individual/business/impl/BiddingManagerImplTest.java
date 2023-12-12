@@ -20,7 +20,7 @@ class BiddingManagerImplTest {
     private ItemManagerImpl itemManager;
 
     @BeforeEach
-    private void SetUp() {
+    public void SetUp() {
         repository = mock(BiddingRepository.class);
         itemManager = mock(ItemManagerImpl.class);
         biddingManager = new BiddingManagerImpl(repository, itemManager);
@@ -59,8 +59,9 @@ class BiddingManagerImplTest {
         bids.get(2).setBidAmount(8.0);
         when(repository.findTop3ByItemIdOrderByBidAmountDesc(1L)).thenReturn(bids);
 
-        BidEntity result = biddingManager.addBid(bid);
+        boolean result = biddingManager.addBid(bid);
 
+        assertTrue(result);
         verify(repository).save(any(BidEntity.class));
     }
 
@@ -104,7 +105,7 @@ class BiddingManagerImplTest {
         BidEntity bid = new BidEntity();
         bid.setItemId(1L);
         bid.setBidAmount(11.0);
-        bid.setUserId(1L);
+        bid.setBidderId(1L);
 
         ItemEntity itemEntity = mock(ItemEntity.class);
         when(itemManager.getItemByID(1L)).thenReturn(itemEntity);

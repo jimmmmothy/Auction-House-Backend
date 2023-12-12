@@ -10,7 +10,7 @@ public class BidTranslator {
     public static Bid translate(BidEntity from) {
         return Bid.builder()
                 .itemId(from.getItemId())
-                .userId(from.getUserId())
+                .userId(from.getBidderId())
                 .bidAmount(from.getBidAmount())
                 .build();
     }
@@ -18,7 +18,7 @@ public class BidTranslator {
     public static BidEntity translate(Bid from) {
         return BidEntity.builder()
                 .itemId(from.getItemId())
-                .userId(from.getUserId())
+                .bidderId(from.getUserId())
                 .bidAmount(from.getBidAmount())
                 .bidTime(new Date())
                 .build();

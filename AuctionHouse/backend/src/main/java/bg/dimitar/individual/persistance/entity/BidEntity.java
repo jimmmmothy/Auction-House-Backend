@@ -1,9 +1,6 @@
 package bg.dimitar.individual.persistance.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,11 +17,12 @@ import java.util.Date;
 public class BidEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "item_id")
     private Long itemId;
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "bidder_id")
+    private Long bidderId;
     @Column(name = "bid_amount")
     private double bidAmount;
     @Column(name = "bid_time")
