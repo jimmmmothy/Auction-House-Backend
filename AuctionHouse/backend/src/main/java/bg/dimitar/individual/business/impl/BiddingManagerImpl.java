@@ -46,7 +46,7 @@ public class BiddingManagerImpl implements BiddingManager {
             updatedItem.setCurrentBid(bid.getBidAmount());
 
             try {
-                itemManager.updateItem(updatedItem, updatedItem.getPostedByUserId());
+                itemManager.updateItem(updatedItem, updatedItem.getPostedByUserId(), true);
             } catch (UnauthorizedChangeException | NotFoundException e) {
                 return false;
             }

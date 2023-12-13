@@ -54,9 +54,12 @@ public class ItemController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateItem(@RequestBody @Valid Item item, @PathVariable("id") final Long itemId, Long userId) {
+    public ResponseEntity<String> updateItem(@RequestBody @Valid Item item, @PathVariable("id") final Long itemId, Principal principal) {
         try {
-            if (itemManager.updateItem(ItemTranslator.translate(item, itemId), userId))
+            long temp = Integer.parseInt(principal.getName());
+            boolean isAdmin = isUserAdmin();
+
+            if (itemManager.updateItem(ItemTranslator.translate(item, itemId), temp, isAdmin))
                 return ResponseEntity.ok().build();
 
             return ResponseEntity.notFound().build();

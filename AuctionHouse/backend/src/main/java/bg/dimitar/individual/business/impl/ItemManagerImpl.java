@@ -34,13 +34,13 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public boolean updateItem(ItemEntity item, Long userId) throws UnauthorizedChangeException, NotFoundException {
+    public boolean updateItem(ItemEntity item, Long userId, boolean isAdmin) throws UnauthorizedChangeException, NotFoundException {
         Optional<ItemEntity> itemFromDb = repository.findById(item.getId());
 
         if (itemFromDb.isEmpty()) {
             throw new NotFoundException("Item not found");
         }
-        if (!itemFromDb.get().getPostedByUserId().equals(userId)) {
+        if (!itemFromDb.get().getPostedByUserId().equals(userId) && !isAdmin) {
             throw new UnauthorizedChangeException("You do not have permission to edit this item");
         }
 

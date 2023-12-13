@@ -86,7 +86,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(realItemId)).thenReturn(Optional.of(realItemEntity));
 
-        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId));
+        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId, true));
     }
 
     @Test
@@ -98,7 +98,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
 
-        assertThrows(UnauthorizedChangeException.class, () -> itemManager.updateItem(itemEntity, userId));
+        assertThrows(UnauthorizedChangeException.class, () -> itemManager.updateItem(itemEntity, userId, false));
     }
 
     @Test
@@ -110,7 +110,22 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
 
-        boolean result = itemManager.updateItem(itemEntity, userId);
+        boolean result = itemManager.updateItem(itemEntity, userId, false);
+
+        assertTrue(result);
+        verify(repository, times(1)).save(itemEntity);
+    }
+
+    @Test
+    void updateItem_SavesItem_WhenAdmin() throws UnauthorizedChangeException, NotFoundException {
+        long userId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(1L);
+        itemEntity.setPostedByUserId(2L);
+
+        when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
+
+        boolean result = itemManager.updateItem(itemEntity, userId, true);
 
         assertTrue(result);
         verify(repository, times(1)).save(itemEntity);
