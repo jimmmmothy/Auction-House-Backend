@@ -24,6 +24,11 @@ public class BiddingManagerImpl implements BiddingManager {
     }
 
     @Override
+    public List<Integer> getBidsByUser(Long userId) {
+        return biddingRepository.findDistinctByBidderId(userId);
+    }
+
+    @Override
     public boolean addBid(BidEntity bid) {
         if (Objects.equals(bid.getBidderId(), itemManager.getItemByID(bid.getItemId()).getPostedByUserId())) {
             throw new IllegalArgumentException("Seller cannot bid on their own item!");

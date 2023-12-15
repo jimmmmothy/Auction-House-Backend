@@ -27,6 +27,17 @@ public class BiddingController {
         }
     }
 
+    @GetMapping("users/{id}")
+    public ResponseEntity<List<Integer>> getBidsByUser(@PathVariable("id") final long userId) {
+        try {
+            List<Integer> response = biddingManager.getBidsByUser(userId);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping()
     public ResponseEntity<String> addBid(@RequestBody @Valid Bid bid) {
         try {
