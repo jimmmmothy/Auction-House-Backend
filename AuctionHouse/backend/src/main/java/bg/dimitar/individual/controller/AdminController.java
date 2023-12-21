@@ -1,6 +1,7 @@
 package bg.dimitar.individual.controller;
 
 import bg.dimitar.individual.business.UserManager;
+import bg.dimitar.individual.controller.dtos.FullUser;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class AdminController {
 
     @GetMapping
     @RolesAllowed("admin")
-    public ResponseEntity<List<UserEntity>> getAllUsers() {
-        return ResponseEntity.ok(userManager.getAllUsers());
+    public ResponseEntity<List<FullUser>> getAllUsers() {
+        return ResponseEntity.ok(userManager.getAllUsers().stream().map(UserTranslator::translateToFullDTO).toList());
     }
 
     @DeleteMapping("/{id}")

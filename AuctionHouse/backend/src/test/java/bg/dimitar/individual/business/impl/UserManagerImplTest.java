@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -108,6 +109,18 @@ class UserManagerImplTest {
     }
 
     @Test
+    void getAllUsers_Success() {
+        UserEntity user1 = new UserEntity();
+        UserEntity user2 = new UserEntity();
+
+        when(repository.findAll()).thenReturn(List.of(user1, user2));
+
+        List<UserEntity> result = userManager.getAllUsers();
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
     void addUser_Success() throws InvalidRegistrationException, EmailInUseException {
         UserEntity user = new UserEntity();
 
@@ -182,5 +195,27 @@ class UserManagerImplTest {
         when(passwordEncoder.matches(eq("password"), anyString())).thenReturn(false);
 
         assertThrows(InvalidLoginException.class, () -> userManager.authenticateUser(user));
+    }
+
+    @Test
+    void deleteUser_Success() {
+        Long userId = 1L;
+
+        userManager.deleteUser(userId);
+
+        verify(repository, times(1)).deleteById(userId);
+    }
+
+    @Test
+    void makeAdmin_Success() {
+        Long userId = 1L;
+        UserEntity user = new UserEntity();
+        user.setId(userId);
+
+        when(repository.findById(userId)).thenReturn(Optional.of(user));
+
+        userManager.makeAdmin(userId);
+
+        verify(repository, times(1)).save(user);
     }
 }

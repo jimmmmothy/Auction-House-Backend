@@ -64,6 +64,19 @@ class ItemManagerImplTest {
     }
 
     @Test
+    void getItemsByTitle_Success() {
+        List<ItemEntity> items = new ArrayList<>();
+        items.add(new ItemEntity());
+        items.add(new ItemEntity());
+
+        when(repository.findAllByTitleContainsIgnoreCase("test")).thenReturn(items);
+
+        List<ItemEntity> result = itemManager.getItemsByTitle("test");
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
     void addItem_Success() {
         ItemEntity itemEntity = new ItemEntity();
 

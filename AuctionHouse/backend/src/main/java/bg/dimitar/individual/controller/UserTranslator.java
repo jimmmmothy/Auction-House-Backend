@@ -1,5 +1,6 @@
 package bg.dimitar.individual.controller;
 
+import bg.dimitar.individual.controller.dtos.FullUser;
 import bg.dimitar.individual.controller.dtos.Login;
 import bg.dimitar.individual.controller.dtos.Register;
 import bg.dimitar.individual.persistance.entity.UserEntity;
@@ -36,6 +37,19 @@ public class UserTranslator {
         return UserEntity.builder()
                 .email(login.getEmail())
                 .password(login.getPassword())
+                .build();
+    }
+
+    public static FullUser translateToFullDTO (UserEntity user) {
+        return FullUser.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .phoneNumber(user.getPhoneNumber())
+                .country(user.getCountry())
                 .build();
     }
 }
