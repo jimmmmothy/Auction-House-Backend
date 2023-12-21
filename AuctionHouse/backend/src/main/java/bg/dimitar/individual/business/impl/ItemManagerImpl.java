@@ -29,6 +29,11 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
+    public List<ItemEntity> getItemsByTitle(String title) {
+        return repository.findAllByTitleContainsIgnoreCase(title);
+    }
+
+    @Override
     public ItemEntity addItem(ItemEntity item) {
         return repository.save(item);
     }

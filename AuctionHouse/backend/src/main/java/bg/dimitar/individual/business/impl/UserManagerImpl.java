@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,6 +41,11 @@ public class UserManagerImpl implements UserManager {
     public UserEntity getUserByEmailAndPassword(String email, String password) {
         Optional<UserEntity> userOptional = repository.findByEmailAndPassword(email, password);
         return userOptional.orElse(null);
+    }
+
+    @Override
+    public List<UserEntity> getAllUsers() {
+        return repository.findAll();
     }
 
     @Override
@@ -75,5 +82,20 @@ public class UserManagerImpl implements UserManager {
         }
 
         throw new InvalidLoginException("Invalid login credentials");
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void makeAdmin(Long id) {
+        Optional<UserEntity> userOptional = repository.findById(id);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            user.setRole("admin");
+            repository.save(user);
+        }
     }
 }

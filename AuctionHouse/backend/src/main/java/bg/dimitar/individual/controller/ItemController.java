@@ -25,7 +25,14 @@ public class ItemController {
     private final ItemManager itemManager;
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
+    public ResponseEntity<List<Item>> getItemsByTitle(@RequestParam(required = false) final String title) {
+        if (title != null) {
+            return ResponseEntity.ok(
+                    itemManager.getItemsByTitle(title)
+                            .stream()
+                            .map(ItemTranslator::translate).toList()
+            );
+        }
         return ResponseEntity.ok(
                 itemManager.getAllItems()
                         .stream()
@@ -34,7 +41,7 @@ public class ItemController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Item> getItemByID(@PathVariable final long id) {
+    public ResponseEntity<Item> getAllItems(@PathVariable final long id) {
         if (itemManager.getItemByID(id) == null) {
             return ResponseEntity.notFound().build();
         }
