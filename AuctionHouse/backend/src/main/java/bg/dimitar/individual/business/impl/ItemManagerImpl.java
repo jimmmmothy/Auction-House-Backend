@@ -29,18 +29,23 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
+    public List<ItemEntity> getItemsByTitle(String title) {
+        return repository.findAllByTitleContainsIgnoreCase(title);
+    }
+
+    @Override
     public ItemEntity addItem(ItemEntity item) {
         return repository.save(item);
     }
 
     @Override
-    public boolean updateItem(ItemEntity item, Long userId) throws UnauthorizedChangeException, NotFoundException {
+    public boolean updateItem(ItemEntity item, Long userId, boolean isAdmin) throws UnauthorizedChangeException, NotFoundException {
         Optional<ItemEntity> itemFromDb = repository.findById(item.getId());
 
         if (itemFromDb.isEmpty()) {
             throw new NotFoundException("Item not found");
         }
-        if (!itemFromDb.get().getPostedByUserId().equals(userId)) {
+        if (!itemFromDb.get().getPostedByUserId().equals(userId) && !isAdmin) {
             throw new UnauthorizedChangeException("You do not have permission to edit this item");
         }
 
@@ -49,14 +54,14 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public boolean deleteItem(Long id, Long userId) throws UnauthorizedChangeException, NotFoundException {
+    public boolean deleteItem(Long id, Long userId, boolean isAdmin) throws UnauthorizedChangeException, NotFoundException {
         Optional<ItemEntity> itemFromDb = repository.findById(id);
 
         if (itemFromDb.isEmpty()) {
             throw new NotFoundException("Item not found");
         }
 
-        if (!itemFromDb.get().getPostedByUserId().equals(userId)) {
+        if (!itemFromDb.get().getPostedByUserId().equals(userId) && !isAdmin) {
             throw new UnauthorizedChangeException("You do not have permission to delete this item");
         }
 

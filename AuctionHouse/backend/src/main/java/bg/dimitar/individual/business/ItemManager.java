@@ -9,7 +9,8 @@ import java.util.List;
 public interface ItemManager {
     ItemEntity getItemByID(Long id);
     List<ItemEntity> getAllItems();
+    List<ItemEntity> getItemsByTitle(String title);
     ItemEntity addItem(ItemEntity item);
-    boolean updateItem(ItemEntity item, Long userId) throws UnauthorizedChangeException, NotFoundException;
-    boolean deleteItem(Long id, Long userId) throws UnauthorizedChangeException, NotFoundException;
+    boolean updateItem(ItemEntity item, Long userId, boolean isAdmin) throws UnauthorizedChangeException, NotFoundException;
+    boolean deleteItem(Long id, Long userId, boolean isAdmin) throws UnauthorizedChangeException, NotFoundException;
 }

@@ -22,6 +22,8 @@ public class ItemEntity {
     private double startingPrice;
     @Column(name = "current_bid", nullable = false)
     private double currentBid;
+    @Column(name = "description", columnDefinition = "jsonb")
+    private String description;
     @Column(name = "posted_by_user_id")
     private Long postedByUserId;
 }

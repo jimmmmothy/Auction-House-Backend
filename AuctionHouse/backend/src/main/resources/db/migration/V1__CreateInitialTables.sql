@@ -7,6 +7,7 @@ CREATE TABLE Users (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
+    country VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (email)
 );
@@ -17,6 +18,7 @@ CREATE TABLE Items (
     category VARCHAR(255) NOT NULL,
     starting_price FLOAT NOT NULL,
     current_bid FLOAT,
+    description JSON,
     posted_by_user_id BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (posted_by_user_id) REFERENCES Users(id)

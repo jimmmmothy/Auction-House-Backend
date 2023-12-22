@@ -64,6 +64,19 @@ class ItemManagerImplTest {
     }
 
     @Test
+    void getItemsByTitle_Success() {
+        List<ItemEntity> items = new ArrayList<>();
+        items.add(new ItemEntity());
+        items.add(new ItemEntity());
+
+        when(repository.findAllByTitleContainsIgnoreCase("test")).thenReturn(items);
+
+        List<ItemEntity> result = itemManager.getItemsByTitle("test");
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
     void addItem_Success() {
         ItemEntity itemEntity = new ItemEntity();
 
@@ -86,7 +99,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(realItemId)).thenReturn(Optional.of(realItemEntity));
 
-        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId));
+        assertThrows(NotFoundException.class, () -> itemManager.updateItem(searchItemEntity, userId, true));
     }
 
     @Test
@@ -98,7 +111,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
 
-        assertThrows(UnauthorizedChangeException.class, () -> itemManager.updateItem(itemEntity, userId));
+        assertThrows(UnauthorizedChangeException.class, () -> itemManager.updateItem(itemEntity, userId, false));
     }
 
     @Test
@@ -110,7 +123,22 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
 
-        boolean result = itemManager.updateItem(itemEntity, userId);
+        boolean result = itemManager.updateItem(itemEntity, userId, false);
+
+        assertTrue(result);
+        verify(repository, times(1)).save(itemEntity);
+    }
+
+    @Test
+    void updateItem_SavesItem_WhenAdmin() throws UnauthorizedChangeException, NotFoundException {
+        long userId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(1L);
+        itemEntity.setPostedByUserId(2L);
+
+        when(repository.findById(itemEntity.getId())).thenReturn(Optional.of(itemEntity));
+
+        boolean result = itemManager.updateItem(itemEntity, userId, true);
 
         assertTrue(result);
         verify(repository, times(1)).save(itemEntity);
@@ -127,7 +155,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(realItemId)).thenReturn(Optional.of(itemEntity));
 
-        assertThrows(NotFoundException.class, () -> itemManager.deleteItem(searchItemId, userId));
+        assertThrows(NotFoundException.class, () -> itemManager.deleteItem(searchItemId, userId, false));
     }
 
     @Test
@@ -140,7 +168,7 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
 
-        assertThrows(UnauthorizedChangeException.class, () -> itemManager.deleteItem(itemId, userId));
+        assertThrows(UnauthorizedChangeException.class, () -> itemManager.deleteItem(itemId, userId, false));
     }
 
     @Test
@@ -153,7 +181,24 @@ class ItemManagerImplTest {
 
         when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
 
-        boolean result = itemManager.deleteItem(itemId, userId);
+        boolean result = itemManager.deleteItem(itemId, userId, false);
+
+        assertTrue(result);
+        verify(repository, times(1)).deleteById(itemId);
+    }
+
+    @Test
+    void deleteItem_DeletesItem_WhenAdmin() throws UnauthorizedChangeException, NotFoundException {
+        long userId = 1L;
+        long newUserId = 2L;
+        long itemId = 1L;
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setId(itemId);
+        itemEntity.setPostedByUserId(userId);
+
+        when(repository.findById(itemId)).thenReturn(Optional.of(itemEntity));
+
+        boolean result = itemManager.deleteItem(itemId, newUserId, true);
 
         assertTrue(result);
         verify(repository, times(1)).deleteById(itemId);

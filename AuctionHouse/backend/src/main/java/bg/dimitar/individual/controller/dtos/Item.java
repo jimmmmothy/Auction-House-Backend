@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item {
+    private long id;
     @NotBlank
     private String title;
     @NotBlank
     private String category;
     private double startingPrice;
     private double currentBid;
+    private String description;
+    private long postedByUserId;
 }

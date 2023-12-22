@@ -1,10 +1,11 @@
 package bg.dimitar.individual.controller;
 
+import bg.dimitar.individual.business.custom_exception.EmailInUseException;
 import bg.dimitar.individual.business.custom_exception.InvalidRegistrationException;
 import bg.dimitar.individual.business.UserManager;
 import bg.dimitar.individual.configuration.security.token.AccessTokenEncoder;
 import bg.dimitar.individual.configuration.security.token.impl.AccessTokenImpl;
-import bg.dimitar.individual.controller.dtos.User;
+import bg.dimitar.individual.controller.dtos.Register;
 import bg.dimitar.individual.persistance.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,15 +24,18 @@ public class RegisterController {
     private final UserManager userManager;
 
     @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody @Valid User user) {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid Register register) {
         try {
-            UserEntity entity = UserTranslator.translateToEntity(user);
+            UserEntity entity = UserTranslator.translate(register);
             userManager.addUser(entity);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));
         }
         catch (InvalidRegistrationException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+        catch (EmailInUseException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
 }
