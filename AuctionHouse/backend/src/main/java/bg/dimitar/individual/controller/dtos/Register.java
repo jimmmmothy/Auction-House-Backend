@@ -25,7 +25,7 @@ public class Register {
     @NotNull
     private String confirmPass;
     @NotBlank
-    private String phone;
+    private String phoneNumber;
     @NotBlank
     private String country;
 }

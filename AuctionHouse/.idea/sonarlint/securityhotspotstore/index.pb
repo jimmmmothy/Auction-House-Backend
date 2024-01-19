@@ -177,5 +177,3 @@ y
 Ibackend/src/main/java/bg/dimitar/individual/controller/BidTranslator.java,b\1\b11e518eda2effd948965ece5cd474e8f88ffc78
 …
 Ubackend/src/test/java/bg/dimitar/individual/business/impl/BiddingManagerImplTest.java,9\c\9cfb62b95f650d5ecc1796dda8de3e33f9d388a8
-
-Obackend/src/test/java/bg/dimitar/individual/controller/AdminControllerTest.java,9\1\91d52f0b2f77b285559eda37585c65558329a92f

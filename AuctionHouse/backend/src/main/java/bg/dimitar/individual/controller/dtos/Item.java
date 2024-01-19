@@ -20,4 +20,5 @@ public class Item {
     private double currentBid;
     private String description;
     private long postedByUserId;
+    private String imageURLs;
 }

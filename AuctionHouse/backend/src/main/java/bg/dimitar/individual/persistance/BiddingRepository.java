@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface BiddingRepository extends JpaRepository<BidEntity, Long> {
     List<BidEntity> findTop3ByItemIdOrderByBidAmountDesc(Long itemId);
-    @Query("SELECT DISTINCT b.itemId FROM BidEntity b WHERE b.bidderId = :bidderId")
-    List<Integer> findDistinctByBidderId(@Param("bidderId") Long bidderId);
+    @Query("SELECT DISTINCT i.title, b.bidAmount, b.itemId FROM BidEntity b JOIN ItemEntity i ON b.itemId = i.id WHERE b.bidderId = :bidderId")
+    List<Object[]> findDistinctByBidderId(@Param("bidderId") Long bidderId);
 }

@@ -28,9 +28,9 @@ public class BiddingController {
     }
 
     @GetMapping("users/{id}")
-    public ResponseEntity<List<Integer>> getBidsByUser(@PathVariable("id") final long userId) {
+    public ResponseEntity<List<Object[]>> getBidsByUser(@PathVariable("id") final long userId) {
         try {
-            List<Integer> response = biddingManager.getBidsByUser(userId);
+            List<Object[]> response = biddingManager.getBidsByUser(userId);
             return ResponseEntity.ok(response);
         }
         catch (Exception ex) {
