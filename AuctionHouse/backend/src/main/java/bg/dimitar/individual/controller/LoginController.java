@@ -35,7 +35,7 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(accessTokenEncoder.encode(new AccessTokenImpl(entity)));
         }
         catch (InvalidLoginException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            return ResponseEntity.status(401).body(ex.getMessage());
         }
     }
 }

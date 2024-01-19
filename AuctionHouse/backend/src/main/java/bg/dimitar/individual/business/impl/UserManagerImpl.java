@@ -85,6 +85,27 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public boolean updateUser(UserEntity user) {
+        Optional<UserEntity> userFromDb = repository.findById(user.getId());
+
+        if (userFromDb.isEmpty()) {
+            return false;
+        }
+
+        UserEntity existingUser = userFromDb.get();
+
+        if (!user.getPassword().startsWith("$2a$")) {
+            String hashedPass = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashedPass);
+        } else {
+            user.setPassword(existingUser.getPassword());
+        }
+
+        repository.save(user);
+        return true;
+    }
+
+    @Override
     public void deleteUser(Long id) {
         repository.deleteById(id);
     }

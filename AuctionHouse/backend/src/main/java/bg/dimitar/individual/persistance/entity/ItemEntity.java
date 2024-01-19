@@ -26,4 +26,6 @@ public class ItemEntity {
     private String description;
     @Column(name = "posted_by_user_id")
     private Long postedByUserId;
+    @Column(name = "image_urls")
+    private String imageURLs;
 }

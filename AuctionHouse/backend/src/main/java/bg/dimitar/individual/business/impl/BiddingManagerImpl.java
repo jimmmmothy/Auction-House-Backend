@@ -24,7 +24,7 @@ public class BiddingManagerImpl implements BiddingManager {
     }
 
     @Override
-    public List<Integer> getBidsByUser(Long userId) {
+    public List<Object[]> getBidsByUser(Long userId) {
         return biddingRepository.findDistinctByBidderId(userId);
     }
 

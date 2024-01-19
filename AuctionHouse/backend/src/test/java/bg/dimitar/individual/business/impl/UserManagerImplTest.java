@@ -207,6 +207,53 @@ class UserManagerImplTest {
     }
 
     @Test
+    void updateUser_Success_WithPassword() {
+        UserEntity user = new UserEntity();
+        user.setId(1L);
+        user.setPassword("password");
+
+        when(repository.findById(1L)).thenReturn(Optional.of(user));
+        when(repository.save(any(UserEntity.class))).thenReturn(user);
+
+        boolean result = userManager.updateUser(user);
+
+        verify(repository, times(1)).save(any(UserEntity.class));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void updateUser_Success_WithoutPassword() {
+        UserEntity user = new UserEntity();
+        user.setId(1L);
+        user.setEmail("email@email.com");
+        user.setPassword("");
+
+        when(repository.findById(1L)).thenReturn(Optional.of(user));
+        when(repository.save(any(UserEntity.class))).thenReturn(user);
+
+        boolean result = userManager.updateUser(user);
+
+        verify(repository, times(1)).save(any(UserEntity.class));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void updateUser_ReturnsFalse_WhenUserDoesNotExist() {
+        UserEntity user = new UserEntity();
+        user.setId(1L);
+
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+
+        boolean result = userManager.updateUser(user);
+
+        verify(repository, times(0)).save(any(UserEntity.class));
+
+        assertFalse(result);
+    }
+
+    @Test
     void makeAdmin_Success() {
         Long userId = 1L;
         UserEntity user = new UserEntity();

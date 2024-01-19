@@ -20,6 +20,7 @@ CREATE TABLE Items (
     current_bid FLOAT,
     description JSON,
     posted_by_user_id BIGINT,
+    image_urls VARCHAR(2000),
     PRIMARY KEY (id),
     FOREIGN KEY (posted_by_user_id) REFERENCES Users(id)
 );

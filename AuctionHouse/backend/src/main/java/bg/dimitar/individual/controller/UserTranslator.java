@@ -16,7 +16,7 @@ public class UserTranslator {
                 .lastName(register.getLastName())
                 .username(register.getUsername())
                 .password(register.getPassword())
-                .phoneNumber(register.getPhone())
+                .phoneNumber(register.getPhoneNumber())
                 .country(register.getCountry())
                 .build();
     }
@@ -28,7 +28,7 @@ public class UserTranslator {
                 .lastName(user.getLastName())
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .phone(user.getPhoneNumber())
+                .phoneNumber(user.getPhoneNumber())
                 .country(user.getCountry())
                 .build();
     }
@@ -43,6 +43,21 @@ public class UserTranslator {
     public static FullUser translateToFullDTO (UserEntity user) {
         return FullUser.builder()
                 .id(user.getId())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .phoneNumber(user.getPhoneNumber())
+                .country(user.getCountry())
+                .build();
+    }
+
+    public static UserEntity translate(FullUser user) {
+        return UserEntity.builder()
+                .id(user.getId())
+                .role(user.getRole())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())

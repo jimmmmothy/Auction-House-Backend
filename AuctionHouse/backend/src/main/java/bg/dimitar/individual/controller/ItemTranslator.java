@@ -18,6 +18,7 @@ public class ItemTranslator {
                 .currentBid(item.getCurrentBid())
                 .description(jsonDescription)
                 .postedByUserId(item.getPostedByUserId())
+                .imageURLs(item.getImageURLs())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class ItemTranslator {
                 .currentBid(item.getCurrentBid())
                 .description(jsonDescription)
                 .postedByUserId(item.getPostedByUserId())
+                .imageURLs(item.getImageURLs())
                 .build();
     }
 
@@ -45,6 +47,7 @@ public class ItemTranslator {
                 .currentBid(item.getCurrentBid())
                 .description(item.getDescription())
                 .postedByUserId(item.getPostedByUserId())
+                .imageURLs(item.getImageURLs())
                 .build();
     }
 }

@@ -5,6 +5,6 @@ CREATE TABLE Bids (
     bid_amount FLOAT NOT NULL,
     bid_time TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (item_id) REFERENCES Items(id),
-    FOREIGN KEY (bidder_id) REFERENCES Users(id)
+    FOREIGN KEY (item_id) REFERENCES Items(id) ON DELETE CASCADE,
+    FOREIGN KEY (bidder_id) REFERENCES Users(id) ON DELETE CASCADE
 );

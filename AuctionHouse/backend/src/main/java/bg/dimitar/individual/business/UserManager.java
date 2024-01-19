@@ -15,6 +15,7 @@ public interface UserManager {
     List<UserEntity> getAllUsers();
     boolean addUser(UserEntity user) throws InvalidRegistrationException, EmailInUseException;
     UserEntity authenticateUser(UserEntity user) throws InvalidLoginException;
+    boolean updateUser(UserEntity user);
     void deleteUser(Long id);
     void makeAdmin(Long id);
 }
